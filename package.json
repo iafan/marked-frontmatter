@@ -1,0 +1,55 @@
+{
+  "name": "marked-frontmatter",
+  "version": "1.0.0",
+  "description": "Marked extension for rendering YAML/JSON frontmatter as HTML tree tables",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "marked",
+    "frontmatter",
+    "yaml",
+    "json",
+    "html",
+    "extension"
+  ],
+  "author": "Igor Afanasyev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iafan/marked-frontmatter.git"
+  },
+  "license": "Unlicense",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "peerDependencies": {
+    "json-to-frontmatter-html": ">=1.0.0",
+    "marked": ">=4.0.0",
+    "tree-to-html": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "json-to-frontmatter-html": "^1.0.0",
+    "marked": "^17.0.1",
+    "tree-to-html": "^1.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  }
+}
