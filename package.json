@@ -1,6 +1,6 @@
 {
   "name": "marked-frontmatter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Marked extension for rendering YAML/JSON frontmatter as HTML tree tables",
   "type": "module",
   "main": "./dist/index.cjs",

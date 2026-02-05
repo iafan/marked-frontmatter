@@ -38,29 +38,31 @@ export function renderFrontmatterBlocks(): void {
 
 /**
  * Marked extension that intercepts YAML/JSON frontmatter at the start of documents.
+ * Frontmatter is only recognized when the entire document starts with "---";
+ * only the first block (until the next "---") is extracted.
  * Use with: marked.use({ extensions: [frontmatterExtension] })
+ *
+ * Note: marked passes the remaining source as `src` and the tokens produced so far as `tokens`.
+ * We only match when no tokens exist yet (document start) so that later "---" blocks are not treated as frontmatter.
  */
 export const frontmatterExtension: TokenizerExtension & RendererExtension = {
   name: 'frontmatter',
   level: 'block',
   start(src: string) {
-    // Only match at the very start of the document
-    if (src.match(/^---\r?\n/)) {
-      return 0
-    }
-    return undefined
+    return src.startsWith('---') ? 0 : undefined
   },
-  tokenizer(src: string) {
-    // Match YAML frontmatter: ---\n...\n---
-    const match = src.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)
-    if (match) {
-      return {
-        type: 'frontmatter',
-        raw: match[0],
-        text: match[1],
-      }
+  tokenizer(src: string, tokens: unknown[]) {
+    // Only extract frontmatter at document start (no tokens yet). Later "---" blocks are body content.
+    if (tokens.length > 0) return undefined
+
+    const match = src.match(/^---\s*\r?\n([\s\S]*?)\r?\n\s*---\s*(?:\r?\n|$)/)
+    if (!match) return undefined
+
+    return {
+      type: 'frontmatter',
+      raw: match[0],
+      text: match[1],
     }
-    return undefined
   },
   renderer(token) {
     // Escape HTML in the raw content
